@@ -88,3 +88,14 @@ ros2 topic echo /robot_status
 ```bash
 rqt_graph
 ```
+
+## Screenshots
+
+### Node Graph (rqt_graph)
+![rqt_graph](screenshots/rqt_graph.png)
+
+### Nodes Running Simultaneously
+![nodes running](screenshots/nodes_running.png)
+
+### /robot_status Topic Output
+![topic echo](screenshots/topic_echo.png)
