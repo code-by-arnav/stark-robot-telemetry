@@ -2,12 +2,8 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64, String
 
-# This node listens to all three joint topics, checks if each joint's
-# value is within its safe range, and sends out an overall status.
-#
-# Note: no simulator was given for this task, so we're treating the
-# commanded position (sent by RobotController) as if it's the joint's
-# actual current position too.
+# This node listens to all three joint topics, checks if each joint's value is within its safe range, and sends out an overall status.
+# Note: no simulator was given for this task, so we're giving dummy positions
 class RobotMonitor(Node):
     def __init__(self):
         super().__init__('robot_monitor')
@@ -19,8 +15,7 @@ class RobotMonitor(Node):
         self.joint2_val = 0.0
         self.joint3_val = 0.0
 
-        # Listen to each joint's topic. Whenever a new message
-        # arrives, the matching function below runs automatically.
+        # Listen to each joint's topic. Whenever a new messag arrives, the matching function below runs automatically.
         self.create_subscription(Float64, '/joint1_command', self.joint1_callback, 10)
         self.create_subscription(Float64, '/joint2_command', self.joint2_callback, 10)
         self.create_subscription(Float64, '/joint3_command', self.joint3_callback, 10)
@@ -61,8 +56,7 @@ class RobotMonitor(Node):
         overall_safe = j1_safe and j2_safe and j3_safe
         overall_status = "SAFE" if overall_safe else "LIMIT EXCEEDED"
 
-        # Build a dictionary-looking piece of text by hand, without
-        # using Python's json library, to keep this simple.
+        # Build a dictionary-looking piece of text by hand, without using Python's json library, to keep this simple.
         status_str = f'{{"joint1": {self.joint1_val}, "joint2": {self.joint2_val}, "joint3": {self.joint3_val}, "status": "{overall_status}"}}'
 
         status_msg = String()
